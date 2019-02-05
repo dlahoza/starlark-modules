@@ -1,0 +1,6 @@
+github.com/DLag/starlight v0.0.0-20190131132040-cc75178c5236 h1:T80m8pC3oByQWfqcnVh3YTNOOPIUXTnyVq16vaQv01c=
+github.com/DLag/starlight v0.0.0-20190131132040-cc75178c5236/go.mod h1:BUq89YVhREWLDBmMNyWfR1/ob3BjH0oKrDR5WvZ9EJk=
+github.com/starlight-go/starlight v0.0.0-20181207205707-b06f321544f3 h1:/fBh1Ot84ILt/ociFHO98wJ9LxIMA3UG8B0unUJPFpY=
+github.com/starlight-go/starlight v0.0.0-20181207205707-b06f321544f3/go.mod h1:pxOc2ZuBV+CNlQgzq/HJ9Z9G/eoEMHFeuGohOvva4Co=
+go.starlark.net v0.0.0-20190205022719-d6f2b0fdac05 h1:T8oZAdLwMUdYUeSzj/+dcgZDuITmyrUA6tSSIXVE1ZI=
+go.starlark.net v0.0.0-20190205022719-d6f2b0fdac05/go.mod h1:c1/X6cHgvdXj6pUlmWKMkuqRnW4K8x2vwt6JAaaircg=
