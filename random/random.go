@@ -34,11 +34,17 @@ func uniform(_ *starlark.Thread, _ *starlark.Builtin, args starlark.Tuple, _ []s
 	if args.Len() != 2 || args.Index(0).Type() != "float" || args.Index(1).Type() != "float" {
 		return starlark.None, fmt.Errorf("wrong args, should be %s(int, int)", fname)
 	}
-	min, _ := args.Index(0).(starlark.Float)
-	max, _ := args.Index(1).(starlark.Float)
-	if max < min {
-		return starlark.None, nil
+	var min, max starlark.Float
+	a, _ := args.Index(0).(starlark.Float)
+	b, _ := args.Index(1).(starlark.Float)
+	if a < b {
+		min = a
+		max = b
+	} else {
+		min = b
+		max = a
 	}
+
 	max = max - min
 	return convert.ToValue(starlark.Float(rand.Float64())*max + min)
 }
@@ -48,11 +54,17 @@ func randInt(_ *starlark.Thread, _ *starlark.Builtin, args starlark.Tuple, _ []s
 	if args.Len() != 2 || args.Index(0).Type() != "int" || args.Index(1).Type() != "int" {
 		return starlark.None, fmt.Errorf("wrong args, should be %s(int, int)", fname)
 	}
-	min, _ := args.Index(0).(starlark.Int).Int64()
-	max, _ := args.Index(1).(starlark.Int).Int64()
-	if max < min {
-		return starlark.None, nil
+	var min, max int64
+	a, _ := args.Index(0).(starlark.Int).Int64()
+	b, _ := args.Index(1).(starlark.Int).Int64()
+	if a <= b {
+		min = a
+		max = b
+	} else {
+		min = b
+		max = a
 	}
+
 	max = max - min
 	return convert.ToValue(rand.Int63n(max) + min)
 }

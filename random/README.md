@@ -16,14 +16,14 @@ Generates and manipulates pseudo-random numbers
 
 Initialize the random number generator.
 
-    random.randint(min int, max int) int
+    random.randint(a int, b int) int
 
-Return a random integer N such that min <= N <= max. Uses Rand.Int63n Go function.
+Return a random integer N such that a <= N <= b for a <= b and b <= N <= a for b < a. Uses Rand.Int63n Go function.
 
     random.random() float
 
 Return the next random floating point number in the range [0.0, 1.0).
 
-    random.uniform(min float, max float) float
+    random.uniform(a float, b float) float
 
-Return a random floating point number N such that min <= N <= max for min <= max.
+Return a random floating point number N such that a <= N <= b for a <= b and b <= N <= a for b < a.
