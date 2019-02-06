@@ -12,19 +12,24 @@ import (
 
 func New() starlark.Value {
 	return builtin.New(map[string]builtin.Function{
-		"load": jsonLoad,
-		"dump": jsonDump,
+		"parse": jsonParse,
+		"dump":  jsonDump,
 	})
 }
 
-func jsonLoad(_ *starlark.Thread, _ *starlark.Builtin, args starlark.Tuple, _ []starlark.Tuple) (starlark.Value, error) {
-	fname := "json.load"
+var (
+	Marshal   = json.Marshal
+	Unmarshal = json.Unmarshal
+)
+
+func jsonParse(_ *starlark.Thread, _ *starlark.Builtin, args starlark.Tuple, _ []starlark.Tuple) (starlark.Value, error) {
+	fname := "json.parse"
 	if args.Len() != 1 || args.Index(0).Type() != "string" {
 		return starlark.None, fmt.Errorf("wrong args, should be %s(string)", fname)
 	}
 	buf := args.Index(0).(starlark.String).GoString()
 	var v map[string]interface{}
-	err := json.Unmarshal([]byte(buf), &v)
+	err := Unmarshal([]byte(buf), &v)
 	if err != nil {
 		return starlark.None, err
 	}
@@ -37,7 +42,7 @@ func jsonDump(_ *starlark.Thread, _ *starlark.Builtin, args starlark.Tuple, _ []
 		return starlark.None, fmt.Errorf("wrong args, should be %s(dict)", fname)
 	}
 	d := builtin.ConvertToStringMap(convert.FromDict(args.Index(0).(*starlark.Dict)))
-	buf, err := json.Marshal(d)
+	buf, err := Marshal(d)
 	if err != nil {
 		return starlark.None, err
 	}

@@ -2,6 +2,7 @@ package random
 
 import (
 	"fmt"
+	"math"
 	"math/rand"
 	"time"
 
@@ -20,13 +21,19 @@ func New() starlark.Value {
 	})
 }
 
+var (
+	Seed    = rand.Seed
+	Float64 = rand.Float64
+	Int63n  = rand.Int63n
+)
+
 func randSeed(_ *starlark.Thread, _ *starlark.Builtin, _ starlark.Tuple, _ []starlark.Tuple) (starlark.Value, error) {
-	rand.Seed(time.Now().UnixNano())
+	Seed(time.Now().UnixNano())
 	return starlark.None, nil
 }
 
 func random(_ *starlark.Thread, _ *starlark.Builtin, _ starlark.Tuple, _ []starlark.Tuple) (starlark.Value, error) {
-	return convert.ToValue(rand.Float64())
+	return convert.ToValue(Float64())
 }
 
 func uniform(_ *starlark.Thread, _ *starlark.Builtin, args starlark.Tuple, _ []starlark.Tuple) (starlark.Value, error) {
@@ -37,16 +44,10 @@ func uniform(_ *starlark.Thread, _ *starlark.Builtin, args starlark.Tuple, _ []s
 	var min, max starlark.Float
 	a, _ := args.Index(0).(starlark.Float)
 	b, _ := args.Index(1).(starlark.Float)
-	if a < b {
-		min = a
-		max = b
-	} else {
-		min = b
-		max = a
-	}
-
+	max = starlark.Float(math.Max(float64(a), float64(b)))
+	min = starlark.Float(math.Min(float64(a), float64(b)))
 	max = max - min
-	return convert.ToValue(starlark.Float(rand.Float64())*max + min)
+	return convert.ToValue(starlark.Float(Float64())*max + min)
 }
 
 func randInt(_ *starlark.Thread, _ *starlark.Builtin, args starlark.Tuple, _ []starlark.Tuple) (starlark.Value, error) {
@@ -66,5 +67,5 @@ func randInt(_ *starlark.Thread, _ *starlark.Builtin, args starlark.Tuple, _ []s
 	}
 
 	max = max - min
-	return convert.ToValue(rand.Int63n(max) + min)
+	return convert.ToValue(Int63n(max) + min)
 }

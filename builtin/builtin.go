@@ -9,19 +9,19 @@ import (
 type Function func(thread *starlark.Thread, _ *starlark.Builtin, args starlark.Tuple, kwargs []starlark.Tuple) (starlark.Value, error)
 
 type builtin struct {
-	builders map[string]Function
+	functions map[string]Function
 }
 
 func New(builders map[string]Function) starlark.Value {
 	return &builtin{
-		builders: builders,
+		functions: builders,
 	}
 }
 
 // Attr returns a starlark value that wraps the method or field with the given
 // name.
 func (m *builtin) Attr(name string) (starlark.Value, error) {
-	if v, ok := m.builders[name]; ok {
+	if v, ok := m.functions[name]; ok {
 		return starlark.NewBuiltin(name, v), nil
 	}
 	return nil, nil
@@ -29,7 +29,7 @@ func (m *builtin) Attr(name string) (starlark.Value, error) {
 
 // AttrNames returns the list of all fields and methods on this struct.
 func (m *builtin) AttrNames() (list []string) {
-	for k := range m.builders {
+	for k := range m.functions {
 		list = append(list, k)
 	}
 	return

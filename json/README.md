@@ -10,7 +10,7 @@
 
 ## Supported functions
 
-    json.load(string) dict
+    json.parse(string) dict
 
 Parses JSON string to Starlark dict. Returns error and None value on parse error. Uses json.Unmarshal Go function.
 

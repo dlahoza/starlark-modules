@@ -2,9 +2,10 @@ package builtin
 
 import (
 	"fmt"
+	"reflect"
+
 	"github.com/DLag/starlight/convert"
 	"go.starlark.net/starlark"
-	"reflect"
 )
 
 func ConvertToStringMap(v interface{}) interface{} {
@@ -34,6 +35,8 @@ func ConvertToStringMap(v interface{}) interface{} {
 			i[key] = ConvertToStringMap(value)
 		}
 		return i
+	case *convert.GoInterface:
+		return i.Value().Interface()
 	}
 	return v
 }
