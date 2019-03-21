@@ -7,7 +7,11 @@ Library of useful Starlark modules for [Starlark implementation in Go](https://g
 
 ## Builtin package
 
-Package [builtin](/builtin) contains functions which simplify Starlark module development and value conversions. 
+Package [builtin](/builtin) contains functions which simplify Starlark module development and value conversions.
+
+## Structs package
+
+Package [structs](/structs) contains types and interfaces which allows you to wrap your structs into Starlark objects 
 
 ## Contributing
 

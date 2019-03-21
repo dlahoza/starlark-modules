@@ -5,22 +5,29 @@ import (
 	"fmt"
 
 	"github.com/DLag/starlark-modules/builtin"
+	"github.com/DLag/starlark-modules/structs"
 
 	"github.com/DLag/starlight/convert"
 	"go.starlark.net/starlark"
 )
 
 func New() starlark.Value {
-	return builtin.New(map[string]builtin.Function{
-		"parse": jsonParse,
-		"dump":  jsonDump,
-	})
+	return structs.New(Json{})
 }
 
 var (
 	Marshal   = json.Marshal
 	Unmarshal = json.Unmarshal
 )
+
+type Json struct{}
+
+func (Json) Methods() map[string]builtin.Function {
+	return map[string]builtin.Function{
+		"parse": jsonParse,
+		"dump":  jsonDump,
+	}
+}
 
 func jsonParse(_ *starlark.Thread, _ *starlark.Builtin, args starlark.Tuple, _ []starlark.Tuple) (starlark.Value, error) {
 	fname := "json.parse"

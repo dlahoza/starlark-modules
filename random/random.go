@@ -6,6 +6,8 @@ import (
 	"math/rand"
 	"time"
 
+	"github.com/DLag/starlark-modules/structs"
+
 	"github.com/DLag/starlark-modules/builtin"
 
 	"github.com/starlight-go/starlight/convert"
@@ -13,12 +15,7 @@ import (
 )
 
 func New() starlark.Value {
-	return builtin.New(map[string]builtin.Function{
-		"seed":    randSeed,
-		"randint": randInt,
-		"random":  random,
-		"uniform": uniform,
-	})
+	return structs.New(Random{})
 }
 
 var (
@@ -26,6 +23,17 @@ var (
 	Float64 = rand.Float64
 	Int63n  = rand.Int63n
 )
+
+type Random struct{}
+
+func (Random) Methods() map[string]builtin.Function {
+	return map[string]builtin.Function{
+		"seed":    randSeed,
+		"randint": randInt,
+		"random":  random,
+		"uniform": uniform,
+	}
+}
 
 func randSeed(_ *starlark.Thread, _ *starlark.Builtin, _ starlark.Tuple, _ []starlark.Tuple) (starlark.Value, error) {
 	Seed(time.Now().UnixNano())
