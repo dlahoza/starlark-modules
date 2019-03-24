@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"reflect"
 
+	"github.com/DLag/starlark-modules/structs"
+
 	"github.com/DLag/starlight/convert"
 	"go.starlark.net/starlark"
 )
@@ -105,7 +107,7 @@ func convertValue(val reflect.Value) (starlark.Value, error) {
 	case reflect.Slice, reflect.Array:
 		return convertSliceToList(val), nil
 	case reflect.Struct:
-		return convert.ToValue(val.Interface())
+		return structs.New(val.Interface()), nil
 	}
 
 	return nil, fmt.Errorf("type %T is not a supported starlark type", val.Interface())
