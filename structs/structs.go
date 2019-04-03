@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/DLag/starlark-modules/builtin"
+	"github.com/DLag/starlark-modules/convert"
 
-	"github.com/starlight-go/starlight/convert"
+	"github.com/DLag/starlark-modules/builtin"
+	sconvert "github.com/DLag/starlight/convert"
+
 	"go.starlark.net/starlark"
 )
 
@@ -46,7 +48,7 @@ func New(v interface{}) starlark.Value {
 			if m, ok := method.Interface().(func(thread *starlark.Thread, _ *starlark.Builtin, args starlark.Tuple, kwargs []starlark.Tuple) (starlark.Value, error)); ok {
 				st.methods[name] = starlark.NewBuiltin(name, m)
 			} else {
-				if m, err := builtin.ToValue(method); err != nil && m.Type() == (&starlark.Builtin{}).Type() {
+				if m, err := convert.ToValue(method); err != nil && m.Type() == (&starlark.Builtin{}).Type() {
 					st.methods[name] = m
 				}
 			}
@@ -79,7 +81,7 @@ func (s *StarlarkStruct) Attr(name string) (starlark.Value, error) {
 		return method, nil
 	}
 	if field, ok := s.fields[name]; ok {
-		return builtin.ToValue(field.Interface())
+		return convert.ToValue(field.Interface())
 	}
 	return nil, nil
 }
@@ -146,7 +148,7 @@ func (s *StarlarkStruct) Hash() (uint32, error) {
 
 // conv tries to convert v to t if v is not assignable to t.
 func conv(v starlark.Value, t reflect.Type) reflect.Value {
-	out := reflect.ValueOf(convert.FromValue(v))
+	out := reflect.ValueOf(sconvert.FromValue(v))
 	if !out.Type().AssignableTo(t) {
 		return out.Convert(t)
 	}
