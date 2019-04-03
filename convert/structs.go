@@ -167,6 +167,10 @@ func (s *StarlarkStruct) Hash() (uint32, error) {
 }
 
 func (s *StarlarkStruct) MarshalJSON() ([]byte, error) {
+	m := make(map[string]interface{}, len(s.fields))
+	for k := range s.fields {
+		m[k] = s.fields[k].Interface()
+	}
 	return json.Marshal(s.fields)
 }
 
