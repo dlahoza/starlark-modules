@@ -54,9 +54,25 @@ func NewStruct(v interface{}) starlark.Value {
 			}
 		}
 	}
+
+	st.fields = extractFields(val)
+	return st
+}
+
+func extractFields(val reflect.Value) map[string]reflect.Value {
+	fields := make(map[string]reflect.Value)
 	for i := 0; i < val.NumField(); i++ {
 		field := val.Type().Field(i)
 		if val.Field(i).Kind() == reflect.Invalid {
+			continue
+		}
+		if val.Field(i).Kind() == reflect.Struct && field.Anonymous {
+			embFields := extractFields(val.Field(i))
+			for k, v := range embFields {
+				if _, ok := fields[k]; !ok {
+					fields[k] = v
+				}
+			}
 			continue
 		}
 		var name string
@@ -69,9 +85,9 @@ func NewStruct(v interface{}) starlark.Value {
 		case "":
 			name = field.Name
 		}
-		st.fields[name] = val.Field(i)
+		fields[name] = val.Field(i)
 	}
-	return st
+	return fields
 }
 
 // Attr returns a starlark value that wraps the method or field with the given

@@ -13,8 +13,13 @@ import (
 )
 
 type testWrapper struct {
+	testWrapperEmbeded
 	Var1 string `starlark:"var1"`
 	Var2 int64  `starlark:"var2"`
+}
+
+type testWrapperEmbeded struct {
+	EmbVar1 string `starlark:"embvar1"`
 }
 
 func (t *testWrapper) func1(_ *starlark.Thread, _ *starlark.Builtin, args starlark.Tuple, _ []starlark.Tuple) (starlark.Value, error) {
@@ -45,15 +50,16 @@ func TestStarlarkStructWrapper(t *testing.T) {
 			"test": NewStruct(v),
 		}
 		script := `
+k = dir(test)
 i1 = test.var1
 i2 = test.var2
+i3 = test.embvar1
 test.var1+="scripttext_"
 test.func1()
 test.var2-=3
 test.func2()
 a1 = test.var1
 a2 = test.var2
-k = dir(test)
 `
 		vars, err := starlark.ExecFile(thread, "script", script, predeclared)
 		a.NotNil(vars)
@@ -71,7 +77,7 @@ k = dir(test)
 		for _, val := range m["k"].([]interface{}) {
 			l = append(l, val.(string))
 		}
-		expected := []string{"var1", "var2", "func1", "func2"}
+		expected := []string{"embvar1", "var1", "var2", "func1", "func2"}
 		sort.Strings(l)
 		sort.Strings(expected)
 		a.Equal(expected, l)
