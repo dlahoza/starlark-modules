@@ -1,11 +1,9 @@
-package structs
+package convert
 
 import (
 	"errors"
 	"fmt"
 	"reflect"
-
-	"github.com/DLag/starlark-modules/convert"
 
 	"github.com/DLag/starlark-modules/builtin"
 	sconvert "github.com/DLag/starlight/convert"
@@ -22,7 +20,7 @@ type StarlarkStruct struct {
 	fields  map[string]reflect.Value
 }
 
-func New(v interface{}) starlark.Value {
+func NewStruct(v interface{}) starlark.Value {
 	st := &StarlarkStruct{
 		methods: make(map[string]starlark.Value),
 		fields:  make(map[string]reflect.Value),
@@ -48,7 +46,7 @@ func New(v interface{}) starlark.Value {
 			if m, ok := method.Interface().(func(thread *starlark.Thread, _ *starlark.Builtin, args starlark.Tuple, kwargs []starlark.Tuple) (starlark.Value, error)); ok {
 				st.methods[name] = starlark.NewBuiltin(name, m)
 			} else {
-				if m, err := convert.ToValue(method); err != nil && m.Type() == (&starlark.Builtin{}).Type() {
+				if m, err := ToValue(method); err != nil && m.Type() == (&starlark.Builtin{}).Type() {
 					st.methods[name] = m
 				}
 			}
@@ -81,7 +79,7 @@ func (s *StarlarkStruct) Attr(name string) (starlark.Value, error) {
 		return method, nil
 	}
 	if field, ok := s.fields[name]; ok {
-		return convert.ToValue(field.Interface())
+		return ToValue(field.Interface())
 	}
 	return nil, nil
 }

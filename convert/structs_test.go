@@ -1,4 +1,4 @@
-package structs
+package convert
 
 import (
 	"sort"

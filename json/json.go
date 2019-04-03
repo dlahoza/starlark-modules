@@ -5,14 +5,14 @@ import (
 	"fmt"
 
 	"github.com/DLag/starlark-modules/builtin"
-	"github.com/DLag/starlark-modules/structs"
+	"github.com/DLag/starlark-modules/convert"
 
-	"github.com/DLag/starlight/convert"
+	sconvert "github.com/DLag/starlight/convert"
 	"go.starlark.net/starlark"
 )
 
 func New() starlark.Value {
-	return structs.New(Json{})
+	return convert.NewStruct(Json{})
 }
 
 var (
@@ -40,7 +40,7 @@ func jsonParse(_ *starlark.Thread, _ *starlark.Builtin, args starlark.Tuple, _ [
 	if err != nil {
 		return starlark.None, err
 	}
-	return convert.MakeDict(v)
+	return sconvert.MakeDict(v)
 }
 
 func jsonDump(_ *starlark.Thread, _ *starlark.Builtin, args starlark.Tuple, _ []starlark.Tuple) (starlark.Value, error) {
@@ -48,7 +48,7 @@ func jsonDump(_ *starlark.Thread, _ *starlark.Builtin, args starlark.Tuple, _ []
 	if args.Len() != 1 || args.Index(0).Type() != "dict" {
 		return starlark.None, fmt.Errorf("wrong args, should be %s(dict)", fname)
 	}
-	d := builtin.ConvertToStringMap(convert.FromDict(args.Index(0).(*starlark.Dict)))
+	d := convert.ConvertToStringMap(sconvert.FromDict(args.Index(0).(*starlark.Dict)))
 	buf, err := Marshal(d)
 	if err != nil {
 		return starlark.None, err

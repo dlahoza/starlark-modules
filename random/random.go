@@ -6,16 +6,14 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/DLag/starlark-modules/structs"
-
 	"github.com/DLag/starlark-modules/builtin"
+	"github.com/DLag/starlark-modules/convert"
 
-	"github.com/starlight-go/starlight/convert"
 	"go.starlark.net/starlark"
 )
 
 func New() starlark.Value {
-	return structs.New(Random{})
+	return convert.NewStruct(Random{})
 }
 
 var (
