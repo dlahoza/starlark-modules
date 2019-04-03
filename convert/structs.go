@@ -59,15 +59,15 @@ func NewStruct(v interface{}) starlark.Value {
 		if val.Field(i).Kind() == reflect.Invalid {
 			continue
 		}
-		name := field.Tag.Get("starlark")
+		var name string
+		for _, t := range StructTags {
+			name = field.Tag.Get(t)
+		}
 		switch name {
 		case "-":
 			continue
 		case "":
 			name = field.Name
-			for _, t := range StructTags {
-				name = field.Tag.Get(t)
-			}
 		}
 		st.fields[name] = val.Field(i)
 	}
