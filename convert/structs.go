@@ -1,11 +1,10 @@
 package convert
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"reflect"
-
-	"github.com/DLag/starlark-modules/json"
 
 	"github.com/DLag/starlark-modules/builtin"
 	sconvert "github.com/DLag/starlight/convert"
