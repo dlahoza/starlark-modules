@@ -11,6 +11,8 @@ import (
 	"go.starlark.net/starlark"
 )
 
+var StructTags = []string{"starlark"}
+
 type MethodsWrapper interface {
 	Methods() map[string]builtin.Function
 }
@@ -63,6 +65,9 @@ func NewStruct(v interface{}) starlark.Value {
 			continue
 		case "":
 			name = field.Name
+			for _, t := range StructTags {
+				name = field.Tag.Get(t)
+			}
 		}
 		st.fields[name] = val.Field(i)
 	}
