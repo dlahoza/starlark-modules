@@ -42,7 +42,7 @@ func TestStarlarkStructWrapper(t *testing.T) {
 		v.Var1 = "start_"
 		v.Var2 = 5
 		predeclared := starlark.StringDict{
-			"test": New(v),
+			"test": NewStruct(v),
 		}
 		script := `
 i1 = test.var1
@@ -81,7 +81,7 @@ k = dir(test)
 		v.Var1 = "start_"
 		v.Var2 = 5
 		predeclared := starlark.StringDict{
-			"test": New(v),
+			"test": NewStruct(v),
 		}
 		script := `
 i1 = test.var1
