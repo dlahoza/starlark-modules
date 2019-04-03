@@ -171,7 +171,7 @@ func (s *StarlarkStruct) MarshalJSON() ([]byte, error) {
 	for k := range s.fields {
 		m[k] = s.fields[k].Interface()
 	}
-	return json.Marshal(s.fields)
+	return json.Marshal(m)
 }
 
 // conv tries to convert v to t if v is not assignable to t.
