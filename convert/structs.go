@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"reflect"
 
+	"github.com/DLag/starlark-modules/json"
+
 	"github.com/DLag/starlark-modules/builtin"
 	sconvert "github.com/DLag/starlight/convert"
 
@@ -163,6 +165,10 @@ func (s *StarlarkStruct) Truth() starlark.Bool {
 // contains a non-hashable value.
 func (s *StarlarkStruct) Hash() (uint32, error) {
 	return 0, errors.New("starlark_go_struct is not hashable")
+}
+
+func (s *StarlarkStruct) MarshalJSON() ([]byte, error) {
+	return json.Marshal(s.fields)
 }
 
 // conv tries to convert v to t if v is not assignable to t.
