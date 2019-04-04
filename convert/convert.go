@@ -108,5 +108,5 @@ func convertValue(val reflect.Value) (starlark.Value, error) {
 		return NewStruct(val.Interface()), nil
 	}
 
-	return nil, fmt.Errorf("type %T is not a supported starlark type", val.Interface())
+	return nil, fmt.Errorf("type %s is not a supported starlark type", val.Kind().String())
 }
