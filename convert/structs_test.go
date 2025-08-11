@@ -4,7 +4,7 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/DLag/starlark-modules/builtin"
+	"github.com/dlahoza/starlark-modules/builtin"
 
 	"github.com/stretchr/testify/assert"
 

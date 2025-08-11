@@ -3,7 +3,7 @@ package random
 import (
 	"testing"
 
-	"github.com/DLag/starlight/convert"
+	"github.com/dlahoza/starlight/convert"
 
 	"go.starlark.net/resolve"
 	"go.starlark.net/starlark"

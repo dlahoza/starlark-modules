@@ -6,8 +6,8 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/DLag/starlark-modules/builtin"
-	"github.com/DLag/starlark-modules/convert"
+	"github.com/dlahoza/starlark-modules/builtin"
+	"github.com/dlahoza/starlark-modules/convert"
 
 	"go.starlark.net/starlark"
 )
