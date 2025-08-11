@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/DLag/starlark-modules/builtin"
-	sconvert "github.com/DLag/starlight/convert"
+	"github.com/dlahoza/starlark-modules/builtin"
+	sconvert "github.com/dlahoza/starlight/convert"
 
 	"go.starlark.net/starlark"
 )

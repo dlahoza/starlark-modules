@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/DLag/starlark-modules/builtin"
-	"github.com/DLag/starlark-modules/convert"
+	"github.com/dlahoza/starlark-modules/builtin"
+	"github.com/dlahoza/starlark-modules/convert"
 
-	sconvert "github.com/DLag/starlight/convert"
+	sconvert "github.com/dlahoza/starlight/convert"
 	"go.starlark.net/starlark"
 )
 

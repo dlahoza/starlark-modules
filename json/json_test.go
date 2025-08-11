@@ -4,9 +4,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/DLag/starlark-modules/builtin"
-
-	"github.com/starlight-go/starlight/convert"
+	"github.com/dlahoza/starlark-modules/convert"
+	sconvert "github.com/starlight-go/starlight/convert"
 	"github.com/stretchr/testify/assert"
 	"go.starlark.net/resolve"
 	"go.starlark.net/starlark"
@@ -46,14 +45,14 @@ a2 = json.parse(a1)
 		a.NoError(err)
 		a.NotNil(vars)
 
-		m := convert.FromStringDict(vars)
+		m := sconvert.FromStringDict(vars)
 		a.NotNil(m)
 		a.Equal(`{"a":"b","c":123}`, m["a1"])
 		expected := map[string]interface{}{
 			"a": "b",
 			"c": int64(123),
 		}
-		a.EqualValues(expected, builtin.ConvertToStringMap(m).(map[string]interface{})["a2"])
+		a.EqualValues(expected, convert.ConvertToStringMap(m).(map[string]interface{})["a2"])
 	})
 	t.Run("dumpWrongParams1", func(t *testing.T) {
 		script := `
